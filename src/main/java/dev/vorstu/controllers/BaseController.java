@@ -1,4 +1,4 @@
-package dev.vorstu.Controllers;
+package dev.vorstu.controllers;
 
 import dev.vorstu.dto.Student;
 import jakarta.annotation.PostConstruct;

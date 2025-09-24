@@ -1,11 +1,22 @@
 package dev.vorstu.dto;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Student {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "fio")
     private String fio;
+
+    @Column(name = "group")
     private String group;
+
+    @Column(name = "phoneNumber")
     private String phoneNumber;
 
 

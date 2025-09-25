@@ -4,6 +4,8 @@ import dev.vorstu.dto.Student;
 import dev.vorstu.repositories.StudentRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/base")
 public class BaseController {
 
@@ -39,10 +42,18 @@ public class BaseController {
         students.add(new Student(2L,"Igor Gofman3","bIVT-231","1234567"));
     }
 
+//    @GetMapping("students")
+//    public Iterable<Student> getAllStudents() {
+//        return studentRepository.findAll();
+//    }
+
     @GetMapping("students")
-    public Iterable<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public Iterable<Student> getStudentsWithPagination(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size) {
+            return studentRepository.findAll(PageRequest.of(page, size, Sort.by("id")));
     }
+
 
     @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student getStudentById(@PathVariable("id") Long id) {

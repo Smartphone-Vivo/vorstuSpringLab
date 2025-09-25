@@ -1,7 +1,9 @@
 package dev.vorstu.controllers;
 
 import dev.vorstu.dto.Student;
+import dev.vorstu.repositories.StudentRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,10 +11,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/base")
 public class BaseController {
+
+    private final StudentRepository studentRepository;
+
+    @Autowired
+    public BaseController(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     private Long counter = 0L;
 
@@ -30,25 +40,38 @@ public class BaseController {
     }
 
     @GetMapping("students")
-    public List<Student> getAllStudents() {
-        return students;
+    public Iterable<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
 
     @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student getStudentById(@PathVariable("id") Long id) {
-        return students.stream()
-                .filter(el -> el.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Student with id " + id + "was not found"));
+        return studentRepository.findById(id).orElse(null);
     }
 
+//    @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Student getStudentById(@PathVariable("id") Long id) {
+//        return students.stream()
+//                .filter(el -> el.getId().equals(id))
+//                .findFirst()
+//                .orElseThrow(() -> new RuntimeException("Student with id " + id + "was not found"));
+//    }
+
     @GetMapping(value = "students/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Student getStudentByGroup(@RequestParam(value = "group") String group) {
-        return students.stream()
-                .filter(el -> el.getGroup().equals(group))
-                .findFirst()
-                .orElse(null);
+    public List<Student> getStudentByGroup(@RequestParam(value = "group") String group) {
+        return studentRepository.findAll().stream()
+            .filter(el -> el.getGroup().equals(group)).collect(Collectors.toList());
+
+
     }
+
+//    @GetMapping(value = "students/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Student getStudentByGroup(@RequestParam(value = "group") String group) {
+//        return students.stream()
+//                .filter(el -> el.getGroup().equals(group))
+//                .findFirst()
+//                .orElse(null);
+//    }
 
     @PostMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student createStudent(@RequestBody Student newStudent) {
@@ -56,8 +79,7 @@ public class BaseController {
     }
 
     private Student addStudent(Student student){
-        student.setId(generateId());
-        students.add(student);
+        studentRepository.save(student);
         return student;
     };
 
@@ -71,7 +93,7 @@ public class BaseController {
             throw new RuntimeException("Student id is null");
         }
 
-        Student changingStudent = students.stream()
+        Student changingStudent = studentRepository.findAll().stream()
                 .filter(el -> Objects.equals(el.getId(), student.getId()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Student not found"));
@@ -79,7 +101,7 @@ public class BaseController {
         changingStudent.setFio(student.getFio());
         changingStudent.setGroup(student.getGroup());
         changingStudent.setPhoneNumber(student.getPhoneNumber());
-        return student;
+        return studentRepository.save(changingStudent);
 
     }
 
@@ -92,7 +114,7 @@ public class BaseController {
     }
 
     private Long removeStudent(Long id) {
-        students.removeIf(el -> el.getId().equals(id));
+        studentRepository.deleteById(id);
         return id;
     }
 

@@ -2,6 +2,8 @@ package dev.vorstu.dto;
 
 import jakarta.persistence.*;
 
+
+@Table(name = "students")
 @Entity
 public class Student {
 
@@ -13,7 +15,7 @@ public class Student {
     @Column(name = "fio")
     private String fio;
 
-    @Column(name = "group")
+    @Column(name="group_of_students")
     private String group;
 
     @Column(name = "phoneNumber")

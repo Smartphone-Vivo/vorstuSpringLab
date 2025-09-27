@@ -1,73 +1,45 @@
 package dev.vorstu.dto;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 
 @Table(name = "students")
 @Entity
+@Data
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "fio")
     private String fio;
 
     @Column(name="group_of_students")
     private String group;
 
-    @Column(name = "phoneNumber")
-    private String phoneNumber;
+
+    private String phone_number;
 
 
     public Student() {
     }
 
-    public Student(String fio, String group, String phoneNumber) {
+    public Student(String fio, String group, String phone_number) {
         this.fio = fio;
         this.group = group;
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phone_number;
     }
 
-    public Student(Long id, String fio, String group, String phoneNumber) {
+    public Student(Long id, String fio, String group, String phone_number) {
         this.id = id;
         this.fio = fio;
         this.group = group;
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phone_number;
     }
 
+//    //todo getter setter lombok, data - what generate
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFio() {
-        return fio;
-    }
-
-    public void setFio(String fio) {
-        this.fio = fio;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }

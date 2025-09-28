@@ -21,7 +21,6 @@ public class BaseController {
 
     private final StudentRepository studentRepository;
 
-
     @GetMapping("students")
     public Iterable<Student> getStudentsWithPagination(
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -32,11 +31,11 @@ public class BaseController {
         return studentRepository.findAll(PageRequest.of(page, size, Sort.by("id")));
     }
 
-//    @GetMapping(name = "find/{name}&limit{limit}")
-//    public Optional<List<Student>> findByName(@RequestParam(name = "name", required = true) Long limit) {
-//        return studentRepository.findStudentsByNameStartsWith("name");
-//
-//    }
+    @GetMapping( "/search")
+    public List<Student> findByName(@RequestParam(required = false) String name) {
+
+        return studentRepository.findStudentsByNameContains(name);
+    }
 
     @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student getStudentById(@PathVariable("id") Long id) {
@@ -51,12 +50,6 @@ public class BaseController {
 
     }
 
-//    @GetMapping("/find")
-//    public Map<String,String> find(
-////            @ApiParam("name")
-//            @NotBlank @RequestParam String name) {
-//        return studentRepository.find(name);
-//    }
 
     @PostMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student createStudent(@RequestBody Student newStudent) {
@@ -80,34 +73,6 @@ public class BaseController {
         changingStudent.setPhone_number(student.getPhone_number());
         return studentRepository.save(changingStudent);
     }
-
-//    private Student updateStudent(Student student){
-//
-//
-//    }
-
-//    @PutMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public Student changeStudent(@RequestBody Student changingStudent) {
-//        return updateStudent(changingStudent);
-//    }
-//
-//    private Student updateStudent(Student student){
-//        if (student.getId() == null){
-//            throw new RuntimeException("Student id is null");
-//        }
-//
-//
-//        Student changingStudent = studentRepository.findAll().stream()
-//                .filter(el -> Objects.equals(el.getId(), student.getId()))
-//                .findFirst()
-//                .orElseThrow(() -> new RuntimeException("Student not found"));
-//
-//        changingStudent.setFio(student.getFio());
-//        changingStudent.setGroup(student.getGroup());
-//        changingStudent.setPhone_number(student.getPhone_number());
-//        return studentRepository.save(changingStudent);
-//
-//    }
 
     @DeleteMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteStudent(@PathVariable Long id) {

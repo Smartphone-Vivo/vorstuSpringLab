@@ -4,6 +4,7 @@ import dev.vorstu.entity.Student;
 import dev.vorstu.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -24,19 +25,34 @@ public class BaseController {
 
     @GetMapping("students")
     public Iterable<Student> getStudentsWithPagination(
+            //todo page, size as path variable
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "5") int size) {
+            @RequestParam(name = "size", defaultValue = "5") int size,
+
+            @RequestParam(required = false) String name,
+            @RequestParam(name = "sort", defaultValue = "id,asc") String sort){
+
+        String[] parts = sort.split(",");
+        String field = parts[0];
+        Sort.Direction direction = Sort.Direction.fromString(parts[1].toUpperCase());
 
         //todo sort as parameter
         //todo add filter by name
-        return studentRepository.findAll(PageRequest.of(page, size, Sort.by("id")));
+        if (name == null){
+            return studentRepository.findAll(PageRequest.of(page, size, Sort.by(sort)));
+        }
+        else {
+            return studentRepository.findStudentsByNameContains(name, PageRequest.of(page, size, Sort.by(direction, field)));
+        }
+
+        //todo clean arcitecture, dto - entity, mapstruct, service
     }
 
-    @GetMapping( "/search")
-    public List<Student> findByName(@RequestParam(required = false) String name) {
-
-        return studentRepository.findStudentsByNameContains(name);
-    }
+//    @GetMapping( "/search")
+//    public List<Student> findByName(@RequestParam(required = false) String name) {
+//
+//        return studentRepository.findStudentsByNameContains(name);
+//    }
 
     @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student getStudentById(@PathVariable("id") Long id) {

@@ -1,8 +1,7 @@
 package dev.vorstu.controllers;
 
-import dev.vorstu.dto.Student;
+import dev.vorstu.entity.Student;
 import dev.vorstu.repositories.StudentRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +20,8 @@ import java.util.stream.Collectors;
 public class BaseController {
 
     private final StudentRepository studentRepository;
+
+
 
     @GetMapping("students")
     public Iterable<Student> getStudentsWithPagination(

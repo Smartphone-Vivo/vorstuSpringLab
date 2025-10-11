@@ -5,6 +5,7 @@ import dev.vorstu.repositories.StudentRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -24,18 +25,25 @@ public class BaseController {
     @GetMapping("students")
     public Iterable<Student> getStudentsWithPagination(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "5") int size) {
+            @RequestParam(name = "size", defaultValue = "5") int size,
+            @RequestParam(required = false) String name){
 
         //todo sort as parameter
         //todo add filter by name
-        return studentRepository.findAll(PageRequest.of(page, size, Sort.by("id")));
+        if (name == null){
+            return studentRepository.findAll(PageRequest.of(page, size, Sort.by("id")));
+        }
+        else {
+            return studentRepository.findStudentsByNameContains(name, PageRequest.of(page, size, Sort.by("id")));
+        }
+
     }
 
-    @GetMapping( "/search")
-    public List<Student> findByName(@RequestParam(required = false) String name) {
-
-        return studentRepository.findStudentsByNameContains(name);
-    }
+//    @GetMapping( "/search")
+//    public List<Student> findByName(@RequestParam(required = false) String name) {
+//
+//        return studentRepository.findStudentsByNameContains(name);
+//    }
 
     @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student getStudentById(@PathVariable("id") Long id) {

@@ -1,6 +1,9 @@
 package dev.vorstu.repositories;
 
 import dev.vorstu.dto.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,8 +18,10 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "s.fio LIKE CONCAT('%', :name, '%') OR " +
             "s.group LIKE CONCAT('%', :name, '%') OR " +
             "s.phone_number LIKE CONCAT('%', :name, '%')")
-    List<Student> findStudentsByNameContains(@Param("name") String name);
+    Page<Student> findStudentsByNameContains(@Param("name") String name,
+                                             Pageable pageable);
 
+//    Page<Student> findStudentsByNameContains(PageRequest id);
 
 
 //    @Query(value = "select b from StudentsSTP b where b.fio like :name")

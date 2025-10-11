@@ -1,9 +1,7 @@
-package dev.vorstu.dto;
+package dev.vorstu.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 
 @Table(name = "students")

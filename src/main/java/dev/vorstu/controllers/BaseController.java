@@ -2,10 +2,8 @@ package dev.vorstu.controllers;
 
 import dev.vorstu.dto.Student;
 import dev.vorstu.repositories.StudentRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -47,12 +45,6 @@ public class BaseController {
         //todo clean arcitecture, dto - entity, mapstruct, service
     }
 
-//    @GetMapping( "/search")
-//    public List<Student> findByName(@RequestParam(required = false) String name) {
-//
-//        return studentRepository.findStudentsByNameContains(name);
-//    }
-
     @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student getStudentById(@PathVariable("id") Long id) {
         return studentRepository.findById(id).orElse(null);
@@ -66,7 +58,6 @@ public class BaseController {
 
     }
 
-
     @PostMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student createStudent(@RequestBody Student newStudent) {
         return studentRepository.save(newStudent);
@@ -77,7 +68,6 @@ public class BaseController {
         if (student.getId() == null){
             throw new RuntimeException("Student id is null");
         }
-
 
         Student changingStudent = studentRepository.findAll().stream()
                 .filter(el -> Objects.equals(el.getId(), student.getId()))

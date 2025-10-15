@@ -22,9 +22,10 @@ public class JwtUtils {
     }
 
     private static Set<Role> getRoles(Claims claims) {
-        final List<String> roles = claims.get("roles", List.class);
-        return roles.stream()
-                .map(Role::valueOf)
-                .collect(Collectors.toSet());
-    } //todo с ролями разобраться, токуны выдает ло логин кал бляяяяяяяя
+
+        String role = claims.get("roles", String.class);
+
+        return Set.of(Role.valueOf(role));
+
+    } //todo с ролями разобраться, токены выдает ло логин кал бляяяяяяяя
 }

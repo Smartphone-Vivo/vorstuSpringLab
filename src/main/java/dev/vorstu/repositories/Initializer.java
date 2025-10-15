@@ -3,7 +3,7 @@ package dev.vorstu.repositories;
 import dev.vorstu.dto.Password;
 import dev.vorstu.dto.Role;
 import dev.vorstu.dto.Student;
-import dev.vorstu.dto.User1;
+import dev.vorstu.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -69,7 +69,7 @@ public class Initializer {
         studentRepository.save(new Student("Nikolaeva Victoria", "BIST-231", "+79105110017"));
         studentRepository.save(new Student("Nikitin Mikhail", "ZOV-232", "+79105110040"));
 
-        User1 student = new User1(
+        User student = new User(
                 null,
                 "student",
                 Role.USER,

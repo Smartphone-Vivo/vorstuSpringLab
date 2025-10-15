@@ -3,7 +3,7 @@ package dev.vorstu.services;
 import dev.vorstu.configs.JwtAuthentication;
 import dev.vorstu.dto.JwtRequest;
 import dev.vorstu.dto.JwtResponse;
-import dev.vorstu.dto.User1;
+import dev.vorstu.dto.User;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public JwtResponse login(@NonNull JwtRequest authRequest) {
-        final User1 user = userService.getByLogin(authRequest.getUsername())
+        final User user = userService.getByLogin(authRequest.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
 
         String encodedPassword = user.getPassword().getPassword();
@@ -47,7 +47,7 @@ public class AuthService {
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User1 user = userService.getByLogin(login)
+                final User user = userService.getByLogin(login)
                         .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 return new JwtResponse(accessToken, null);
@@ -62,7 +62,7 @@ public class AuthService {
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User1 user = userService.getByLogin(login)
+                final User user = userService.getByLogin(login)
                         .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(user);

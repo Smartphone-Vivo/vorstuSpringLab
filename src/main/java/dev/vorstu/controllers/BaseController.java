@@ -1,12 +1,16 @@
 package dev.vorstu.controllers;
 
+import dev.vorstu.configs.JwtAuthentication;
 import dev.vorstu.dto.Student;
 import dev.vorstu.repositories.StudentRepository;
+import dev.vorstu.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -19,6 +23,22 @@ import java.util.stream.Collectors;
 public class BaseController {
 
     private final StudentRepository studentRepository;
+    private final AuthService authService;
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("hello/user")
+    public ResponseEntity<String> helloUser() {
+        final JwtAuthentication authInfo = authService.getAuthInfo();
+        return ResponseEntity.ok("Hello user " + authInfo.getPrincipal() + "!");
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("hello/admin")
+    public ResponseEntity<String> helloAdmin() {
+        final JwtAuthentication authInfo = authService.getAuthInfo();
+        return ResponseEntity.ok("Hello admin " + authInfo.getPrincipal() + "!");
+    }
+
 
     @GetMapping("students")
     public Iterable<Student> getStudentsWithPagination(

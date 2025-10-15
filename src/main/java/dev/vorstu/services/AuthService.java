@@ -3,14 +3,14 @@ package dev.vorstu.services;
 import dev.vorstu.configs.JwtAuthentication;
 import dev.vorstu.dto.JwtRequest;
 import dev.vorstu.dto.JwtResponse;
-import dev.vorstu.dto.User;
+import dev.vorstu.dto.User1;
 import io.jsonwebtoken.Claims;
-import jakarta.security.auth.message.AuthException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,14 +23,18 @@ public class AuthService {
     private final UserService userService;
     private final Map<String, String> refreshStorage = new HashMap<>();
     private final JwtProvider jwtProvider;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public JwtResponse login(@NonNull JwtRequest authRequest) {
-        final User user = userService.getByLogin(authRequest.getLogin())
+        final User1 user = userService.getByLogin(authRequest.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
-        if (user.getPassword().equals(authRequest.getPassword())) {
+
+        String encodedPassword = user.getPassword().getPassword();
+
+        if (passwordEncoder.matches(authRequest.getPassword(), encodedPassword)) {
             final String accessToken = jwtProvider.generateAccessToken(user);
             final String refreshToken = jwtProvider.generateRefreshToken(user);
-            refreshStorage.put(user.getLogin(), refreshToken);
+            refreshStorage.put(user.getUsername(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
             throw new BadCredentialsException("Неправильный пароль");
@@ -43,7 +47,7 @@ public class AuthService {
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final User1 user = userService.getByLogin(login)
                         .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 return new JwtResponse(accessToken, null);
@@ -58,11 +62,11 @@ public class AuthService {
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final User1 user = userService.getByLogin(login)
                         .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(user);
-                refreshStorage.put(user.getLogin(), newRefreshToken);
+                refreshStorage.put(user.getUsername(), newRefreshToken);
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }

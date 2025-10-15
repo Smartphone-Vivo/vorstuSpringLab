@@ -1,6 +1,9 @@
 package dev.vorstu.repositories;
 
+import dev.vorstu.dto.Password;
+import dev.vorstu.dto.Role;
 import dev.vorstu.dto.Student;
+import dev.vorstu.dto.User1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +12,9 @@ public class Initializer {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public void initial() {
         studentRepository.save(new Student("Igor Gofman", "BVM-231", "+79153981488"));
@@ -63,6 +69,14 @@ public class Initializer {
         studentRepository.save(new Student("Nikolaeva Victoria", "BIST-231", "+79105110017"));
         studentRepository.save(new Student("Nikitin Mikhail", "ZOV-232", "+79105110040"));
 
+        User1 student = new User1(
+                null,
+                "student",
+                Role.USER,
+                new Password("1234"),
+                true
+        );
+        userRepository.save(student);
     }
 
     public void getAllStudents(){

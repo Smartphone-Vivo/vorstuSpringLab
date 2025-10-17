@@ -40,11 +40,10 @@ public class BaseController {
 
     //@DeleteMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     //    public void deleteStudent(@PathVariable Long id) {
-    @GetMapping("students")
+    @GetMapping("students/{page}/{size}")
     public Iterable<Student> getStudentsWithPagination(
-            //todo page, size as path variable
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "5") int size,
+            @PathVariable(name = "page") int page,
+            @PathVariable(name = "size") int size,
 
             @RequestParam(required = false) String name,
             @RequestParam(name = "sort", defaultValue = "id,asc") String sort){
@@ -53,8 +52,6 @@ public class BaseController {
         String field = parts[0];
         Sort.Direction direction = Sort.Direction.fromString(parts[1].toUpperCase());
 
-        //todo sort as parameter
-        //todo add filter by name
         if (name == null){
             return studentRepository.findAll(PageRequest.of(page, size, Sort.by(sort)));
         }

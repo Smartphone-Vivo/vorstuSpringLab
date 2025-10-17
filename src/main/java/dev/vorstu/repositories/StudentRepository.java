@@ -20,11 +20,4 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Page<Student> findStudentsByNameContains(@Param("name") String name,
                                              Pageable pageable);
 
-//    Page<Student> findStudentsByNameContains(PageRequest id);
-
-
-//    @Query(value = "select b from StudentsSTP b where b.fio like :name")
-//    List<Student> findByName(@Param("name") String name);
-
-    //todo use jpql
 }

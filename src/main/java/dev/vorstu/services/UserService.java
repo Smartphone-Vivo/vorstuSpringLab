@@ -16,7 +16,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    //todo не факт что достает все что нужно
     public Optional<User> getByLogin(@NonNull String username) {
         return userRepository.findByUsername(username);
 //        return users.stream()

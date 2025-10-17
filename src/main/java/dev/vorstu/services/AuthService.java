@@ -25,6 +25,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+
     public JwtResponse login(@NonNull JwtRequest authRequest) {
         final User user = userService.getByLogin(authRequest.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));

@@ -38,7 +38,8 @@ public class BaseController {
         return ResponseEntity.ok("Hello admin " + authInfo.getPrincipal() + "!");
     }
 
-
+    //@DeleteMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    //    public void deleteStudent(@PathVariable Long id) {
     @GetMapping("students")
     public Iterable<Student> getStudentsWithPagination(
             //todo page, size as path variable

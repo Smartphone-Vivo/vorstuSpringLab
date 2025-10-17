@@ -4,6 +4,7 @@ import dev.vorstu.dto.JwtRequest;
 import dev.vorstu.dto.JwtResponse;
 import dev.vorstu.dto.RefreshJwtRequest;
 import dev.vorstu.services.AuthService;
+import dev.vorstu.services.RegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    private final RegisterService registerService;
+
+    @PostMapping("register")
+    public void register(@RequestBody JwtRequest authRequest) {
+        registerService.register(authRequest);
+    }
 
     @PostMapping("login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) {

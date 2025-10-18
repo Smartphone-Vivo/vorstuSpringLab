@@ -1,4 +1,4 @@
-package dev.vorstu.services;
+package dev.vorstu.jwt;
 
 
 import dev.vorstu.dto.User;

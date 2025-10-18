@@ -1,4 +1,4 @@
-package dev.vorstu.configs;
+package dev.vorstu.jwt;
 
 import dev.vorstu.dto.Role;
 import lombok.Getter;

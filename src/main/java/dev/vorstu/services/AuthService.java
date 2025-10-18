@@ -1,9 +1,10 @@
 package dev.vorstu.services;
 
-import dev.vorstu.configs.JwtAuthentication;
+import dev.vorstu.jwt.JwtAuthentication;
 import dev.vorstu.dto.JwtRequest;
 import dev.vorstu.dto.JwtResponse;
 import dev.vorstu.dto.User;
+import dev.vorstu.jwt.JwtProvider;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

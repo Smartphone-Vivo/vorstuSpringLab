@@ -1,6 +1,6 @@
 package dev.vorstu.controllers;
 
-import dev.vorstu.configs.JwtAuthentication;
+import dev.vorstu.jwt.JwtAuthentication;
 import dev.vorstu.dto.Student;
 import dev.vorstu.repositories.StudentRepository;
 import dev.vorstu.services.AuthService;
@@ -21,6 +21,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class BaseController {
 
+    //todo разделение ролей, разнефе таблички в зависимости от роли(student - видит свою группу, редактирует себя,
+    //todo admin - видит и редактирует всех, teacher - видит и редактирует свою группу) На фронте сделать Studentpage,admin,teacher
+    //todo чтоб один компонент и в зависимости от роли отображалось
+
     private final StudentRepository studentRepository;
     private final AuthService authService;
 
@@ -38,8 +42,6 @@ public class BaseController {
         return ResponseEntity.ok("Hello admin " + authInfo.getPrincipal() + "!");
     }
 
-    //@DeleteMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    //    public void deleteStudent(@PathVariable Long id) {
     @GetMapping("students/{page}/{size}")
     public Iterable<Student> getStudentsWithPagination(
             @PathVariable(name = "page") int page,
@@ -72,8 +74,6 @@ public class BaseController {
     public List<Student> getStudentByGroup(@RequestParam(value = "group") String group) {
         return studentRepository.findAll().stream()
             .filter(el -> el.getGroup().equals(group)).collect(Collectors.toList());
-
-
     }
 
     @PostMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)

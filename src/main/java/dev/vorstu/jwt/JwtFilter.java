@@ -1,6 +1,5 @@
-package dev.vorstu.configs;
+package dev.vorstu.jwt;
 
-import dev.vorstu.services.JwtProvider;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

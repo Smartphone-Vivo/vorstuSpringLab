@@ -72,11 +72,30 @@ public class Initializer {
         User student = new User(
                 null,
                 "student",
-                Role.USER,
-                new Password("1234"),
+                Role.STUDENT,
+                new Password("student"),
                 true
         );
         userRepository.save(student);
+
+        User admin = new User(
+                null,
+                "admin",
+                Role.ADMIN,
+                new Password("admin"),
+                true
+        );
+        userRepository.save(admin);
+
+        User teacher = new User(
+                null,
+                "teacher",
+                Role.TEACHER,
+                new Password("teacher"),
+                true
+        );
+        userRepository.save(teacher);
+
     }
 
     public void getAllStudents(){

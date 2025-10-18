@@ -15,7 +15,7 @@ public class RegisterService {
         User student = new User(
                 null,
                 user.getUsername(),
-                Role.USER,
+                Role.STUDENT,
                 new Password(user.getPassword()),
                 true
         );

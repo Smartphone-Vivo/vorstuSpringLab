@@ -18,6 +18,7 @@ public class Student {
     @Column(name="group_of_students")
     private String group;
 
+    //todo group - отдельная сущность
 
     private String phone_number;
 

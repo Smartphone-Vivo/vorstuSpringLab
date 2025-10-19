@@ -1,6 +1,7 @@
 package dev.vorstu.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,11 +25,26 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private String fio;
+
+    private String phone_number;
+
+    //todo отличие EAGER от LAZY
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "password_id", nullable = false)
     private Password password;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "group_id")
+    private Group groups;
+
     private boolean enable;
+
+    public boolean getEnable(){
+        return this.enable;
+    }
 
 
 }

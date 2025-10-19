@@ -1,11 +1,11 @@
 package dev.vorstu.repositories;
 
-import dev.vorstu.dto.Password;
-import dev.vorstu.dto.Role;
-import dev.vorstu.dto.Student;
-import dev.vorstu.dto.User;
+import dev.vorstu.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class Initializer {
@@ -17,63 +17,63 @@ public class Initializer {
     private UserRepository userRepository;
 
     public void initial() {
-        studentRepository.save(new Student("Igor Gofman", "BVM-231", "+79153981488"));
-        studentRepository.save(new Student("Kolesnikov Igor", "ZOV-232", "+79105110036"));
-        studentRepository.save(new Student("Petrova Maria", "BVM-231", "+79105110002"));
-        studentRepository.save(new Student("Gerasimova Anastasia", "BIST-233", "+79105110027"));
-        studentRepository.save(new Student("Novikov Pavel", "BVM-232", "+79105110009"));
-        studentRepository.save(new Student("Rodionova Marina", "ZOV-231", "+79105110035"));
-        studentRepository.save(new Student("Tarasov Evgeny", "BIST-233", "+79105110028"));
-        studentRepository.save(new Student("Kuznetsova Anna", "BVM-231", "+79105110004"));
-        studentRepository.save(new Student("Belov Stanislav", "BIST-233", "+79105110030"));
-        studentRepository.save(new Student("Vinogradova Karina", "ZOV-233", "+79105110043"));
-        studentRepository.save(new Student("Fedorov Igor", "BVM-232", "+79105110007"));
-        studentRepository.save(new Student("Andreeva Milana", "BVM-233", "+79105110049"));
-        studentRepository.save(new Student("Soloviev Roman", "BIST-231", "+79105110018"));
-        studentRepository.save(new Student("Makarov Gleb", "BVM-231", "+79105110046"));
-        studentRepository.save(new Student("Komarova Yulia", "BIST-232", "+79105110025"));
-        studentRepository.save(new Student("Pavlova Natalia", "BVM-232", "+79105110010"));
-        studentRepository.save(new Student("Zaitsev Kirill", "BIST-232", "+79105110022"));
-        studentRepository.save(new Student("Timofeev Oleg", "ZOV-232", "+79105110038"));
-        studentRepository.save(new Student("Kuzmin Artem", "BIST-231", "+79105110016"));
-        studentRepository.save(new Student("Sidorov Dmitry", "BVM-231", "+79105110003"));
-        studentRepository.save(new Student("Lapina Angelina", "ZOV-233", "+79105110045"));
-        studentRepository.save(new Student("Gusev Maxim", "BVM-233", "+79105110014"));
-        studentRepository.save(new Student("Morozova Olga", "BVM-232", "+79105110008"));
-        studentRepository.save(new Student("Savina Elizaveta", "ZOV-232", "+79105110037"));
-        studentRepository.save(new Student("Davydov Vladislav", "BIST-233", "+79105110026"));
-        studentRepository.save(new Student("Ivanov Alexey", "BVM-231", "+79105110001"));
-        studentRepository.save(new Student("Stepanova Arina", "ZOV-231", "+79105110031"));
-        studentRepository.save(new Student("Krylova Sofia", "ZOV-232", "+79105110039"));
-        studentRepository.save(new Student("Popov Sergey", "BVM-231", "+79105110005"));
-        studentRepository.save(new Student("Egorova Alina", "BIST-232", "+79105110021"));
-        studentRepository.save(new Student("Volkova Elena", "BVM-232", "+79105110006"));
-        studentRepository.save(new Student("Polyakov Artur", "ZOV-233", "+79105110042"));
-        studentRepository.save(new Student("Sorokina Diana", "BIST-232", "+79105110047"));
-        studentRepository.save(new Student("Osipova Valeria", "ZOV-233", "+79105110041"));
-        studentRepository.save(new Student("Borisov Alexander", "BIST-232", "+79105110024"));
-        studentRepository.save(new Student("Lebedeva Irina", "BVM-233", "+79105110011"));
-        studentRepository.save(new Student("Matveeva Veronika", "ZOV-231", "+79105110033"));
-        studentRepository.save(new Student("Titova Ekaterina", "BVM-233", "+79105110015"));
-        studentRepository.save(new Student("Zakharov Lev", "BIST-231", "+79105110050"));
-        studentRepository.save(new Student("Filippov Nikita", "ZOV-231", "+79105110032"));
-        studentRepository.save(new Student("Kozlov Andrey", "BVM-233", "+79105110012"));
-        studentRepository.save(new Student("Vasileva Polina", "BIST-231", "+79105110019"));
-        studentRepository.save(new Student("Kovalev Egor", "ZOV-231", "+79105110048"));
-        studentRepository.save(new Student("Orlova Svetlana", "BVM-233", "+79105110013"));
-        studentRepository.save(new Student("Medvedeva Kristina", "BIST-233", "+79105110029"));
-        studentRepository.save(new Student("Semyonov Vadim", "ZOV-233", "+79105110044"));
-        studentRepository.save(new Student("Mikhailov Denis", "BIST-231", "+79105110020"));
-        studentRepository.save(new Student("Grigoriev Anton", "ZOV-231", "+79105110034"));
-        studentRepository.save(new Student("Karpova Daria", "BIST-232", "+79105110023"));
-        studentRepository.save(new Student("Nikolaeva Victoria", "BIST-231", "+79105110017"));
-        studentRepository.save(new Student("Nikitin Mikhail", "ZOV-232", "+79105110040"));
+
+        List<User> users = Arrays.asList(
+                // Студенты (30 штук)
+                new User(null, "student1", Role.STUDENT, "Ivanov Alex", "1488", new Password("student1"), new Group("BMW-1488"), true),
+                new User(null, "student2", Role.STUDENT, "Petrov Mike", "1489", new Password("student2"), new Group("BMW-1488"), true),
+                new User(null, "student3", Role.STUDENT, "Sidorov John", "1490", new Password("student3"), new Group("BMW-1488"), true),
+                new User(null, "student4", Role.STUDENT, "Kuznetsov Anna", "1491", new Password("student4"), new Group("BMW-1488"), true),
+                new User(null, "student5", Role.STUDENT, "Popov Maria", "1492", new Password("student5"), new Group("BMW-1488"), true),
+                new User(null, "student6", Role.STUDENT, "Lebedev Olga", "1493", new Password("student6"), new Group("BMW-1488"), true),
+                new User(null, "student7", Role.STUDENT, "Kozlov Steve", "1494", new Password("student7"), new Group("BMW-1488"), true),
+                new User(null, "student8", Role.STUDENT, "Novikov Irina", "1495", new Password("student8"), new Group("BMW-1488"), true),
+                new User(null, "student9", Role.STUDENT, "Morozov Tom", "1496", new Password("student9"), new Group("BMW-1488"), true),
+                new User(null, "student10", Role.STUDENT, "Volkov Natalia", "1497", new Password("student10"), new Group("BMW-1488"), true),
+                new User(null, "student11", Role.STUDENT, "Fedorov Alexey", "1498", new Password("student11"), new Group("BMW-1489"), true),
+                new User(null, "student12", Role.STUDENT, "Orlov Dmitry", "1499", new Password("student12"), new Group("BMW-1489"), true),
+                new User(null, "student13", Role.STUDENT, "Belyaev Sergey", "1500", new Password("student13"), new Group("BMW-1489"), true),
+                new User(null, "student14", Role.STUDENT, "Gusev Andrey", "1501", new Password("student14"), new Group("BMW-1489"), true),
+                new User(null, "student15", Role.STUDENT, "Titov Pavel", "1502", new Password("student15"), new Group("BMW-1489"), true),
+                new User(null, "student16", Role.STUDENT, "Komarov Elena", "1503", new Password("student16"), new Group("BMW-1489"), true),
+                new User(null, "student17", Role.STUDENT, "Shcherbakov Kate", "1504", new Password("student17"), new Group("BMW-1489"), true),
+                new User(null, "student18", Role.STUDENT, "Mikhailov Julia", "1505", new Password("student18"), new Group("BMW-1489"), true),
+                new User(null, "student19", Role.STUDENT, "Romanov Victoria", "1506", new Password("student19"), new Group("BMW-1489"), true),
+                new User(null, "student20", Role.STUDENT, "Vasiliev Sophia", "1507", new Password("student20"), new Group("BMW-1489"), true),
+                new User(null, "student21", Role.STUDENT, "Zaitsev Artem", "1508", new Password("student21"), new Group("BMW-1490"), true),
+                new User(null, "student22", Role.STUDENT, "Pavlov Maxim", "1509", new Password("student22"), new Group("BMW-1490"), true),
+                new User(null, "student23", Role.STUDENT, "Semyonov Ivan", "1510", new Password("student23"), new Group("BMW-1490"), true),
+                new User(null, "student24", Role.STUDENT, "Golubev Roman", "1511", new Password("student24"), new Group("BMW-1490"), true),
+                new User(null, "student25", Role.STUDENT, "Vinogradov Denis", "1512", new Password("student25"), new Group("BMW-1490"), true),
+                new User(null, "student26", Role.STUDENT, "Bogdanov Kristina", "1513", new Password("student26"), new Group("BMW-1490"), true),
+                new User(null, "student27", Role.STUDENT, "Vorobiev Alina", "1514", new Password("student27"), new Group("BMW-1490"), true),
+                new User(null, "student28", Role.STUDENT, "Filippov Daria", "1515", new Password("student28"), new Group("BMW-1490"), true),
+                new User(null, "student29", Role.STUDENT, "Konstantinov Polina", "1516", new Password("student29"), new Group("BMW-1490"), true),
+                new User(null, "student30", Role.STUDENT, "Grigoriev Angelina", "1517", new Password("student30"), new Group("BMW-1490"), true),
+
+                // Преподаватели (3 штуки)
+                new User(null, "teacher1", Role.TEACHER, "Prof. Ivanov", "2501", new Password("teacher1"), new Group("BMW-FAC1"), true),
+                new User(null, "teacher2", Role.TEACHER, "Dr. Petrov", "2502", new Password("teacher2"), new Group("BMW-FAC2"), true),
+                new User(null, "teacher3", Role.TEACHER, "PhD Sidorov", "2503", new Password("teacher3"), new Group("BMW-FAC3"), true),
+
+                // Администраторы (2 штуки)
+                new User(null, "admin1", Role.ADMIN, "Chief Admin", "3501", new Password("admin1"), new Group("BMW-ADM1"), true),
+                new User(null, "admin2", Role.ADMIN, "System Admin", "3502", new Password("admin2"), new Group("BMW-ADM2"), true)
+        );
+
+// Сохраняем всех пользователей через обычный for
+        for (User user : users) {
+            userRepository.save(user);
+        }
 
         User student = new User(
                 null,
                 "student",
                 Role.STUDENT,
+                "Igor Gofman Student",
+                "1488",
                 new Password("student"),
+                new Group("BMW-1488"),
                 true
         );
         userRepository.save(student);
@@ -82,7 +82,10 @@ public class Initializer {
                 null,
                 "admin",
                 Role.ADMIN,
+                "Igor Gofman admin",
+                "1489",
                 new Password("admin"),
+                new Group("BMW-1489"),
                 true
         );
         userRepository.save(admin);
@@ -91,7 +94,10 @@ public class Initializer {
                 null,
                 "teacher",
                 Role.TEACHER,
-                new Password("teacher"),
+                "Igor Gofman teacher",
+                "1490",
+                new Password("student"),
+                new Group("BMW-1490"),
                 true
         );
         userRepository.save(teacher);

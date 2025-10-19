@@ -1,8 +1,10 @@
 package dev.vorstu.controllers;
 
+import dev.vorstu.dto.User;
 import dev.vorstu.jwt.JwtAuthentication;
 import dev.vorstu.dto.Student;
 import dev.vorstu.repositories.StudentRepository;
+import dev.vorstu.repositories.UserRepository;
 import dev.vorstu.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +29,12 @@ public class BaseController {
 
     private final StudentRepository studentRepository;
     private final AuthService authService;
+    private final UserRepository userRepository;
 
-    @PreAuthorize("hasAuthority('USER')")
-    @GetMapping("hello/user")
-    public ResponseEntity<String> helloUser() {
-        final JwtAuthentication authInfo = authService.getAuthInfo();
-        return ResponseEntity.ok("Hello user " + authInfo.getPrincipal() + "!");
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("hello/admin")
-    public ResponseEntity<String> helloAdmin() {
-        final JwtAuthentication authInfo = authService.getAuthInfo();
-        return ResponseEntity.ok("Hello admin " + authInfo.getPrincipal() + "!");
-    }
+    //todo сортировку по группам сделать
 
     @GetMapping("students/{page}/{size}")
-    public Iterable<Student> getStudentsWithPagination(
+    public Iterable<User> getStudentsWithPagination(
             @PathVariable(name = "page") int page,
             @PathVariable(name = "size") int size,
 
@@ -55,47 +46,53 @@ public class BaseController {
         Sort.Direction direction = Sort.Direction.fromString(parts[1].toUpperCase());
 
         if (name == null){
-            return studentRepository.findAll(PageRequest.of(page, size, Sort.by(sort)));
+            return userRepository.findAll(PageRequest.of(page, size, Sort.by(sort)));
         }
         else {
-            return studentRepository.findStudentsByNameContains(name, PageRequest.of(page, size, Sort.by(direction, field)));
+            return userRepository.findStudentsByNameContains(name, PageRequest.of(page, size, Sort.by(direction, field)));
         }
 
         //todo clean arcitecture, dto - entity, mapstruct, service
     }
 
-
+    //todo удалить
     @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student getStudentById(@PathVariable("id") Long id) {
         return studentRepository.findById(id).orElse(null);
     }
 
+    //todo удалить
     @GetMapping(value = "students/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Student> getStudentByGroup(@RequestParam(value = "group") String group) {
         return studentRepository.findAll().stream()
             .filter(el -> el.getGroup().equals(group)).collect(Collectors.toList());
     }
 
+    //todo админский функционал
     @PostMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student createStudent(@RequestBody Student newStudent) {
         return studentRepository.save(newStudent);
     }
 
+    //todo стрим поменять на чето там запрос вроде хз
     @PutMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Student changeStudent(@RequestBody Student student) {
-        if (student.getId() == null){
-            throw new RuntimeException("Student id is null");
+    public User changeStudent(@RequestBody User user) {
+        if (user.getId() == null){
+            throw new RuntimeException("User id is null");
         }
 
-        Student changingStudent = studentRepository.findAll().stream()
-                .filter(el -> Objects.equals(el.getId(), student.getId()))
+        User changingUser = userRepository.findAll().stream()
+                .filter(el -> Objects.equals(el.getId(), user.getId()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
-        changingStudent.setFio(student.getFio());
-        changingStudent.setGroup(student.getGroup());
-        changingStudent.setPhone_number(student.getPhone_number());
-        return studentRepository.save(changingStudent);
+        changingUser.setUsername(user.getUsername());
+        changingUser.setRole(user.getRole());
+        changingUser.setFio(user.getFio());
+        changingUser.setPhone_number(user.getPhone_number());
+        changingUser.setGroups(user.getGroups());
+        changingUser.setEnable(user.getEnable());
+        return userRepository.save(changingUser);
     }
 
     @DeleteMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

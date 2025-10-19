@@ -1,13 +1,25 @@
 package dev.vorstu.repositories;
 
+import dev.vorstu.dto.Student;
 import dev.vorstu.dto.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
+
+    @Query("SELECT s FROM User s WHERE " +
+            "s.fio LIKE CONCAT('%', :name, '%') OR " +
+//            "s.groups LIKE CONCAT('%', :name, '%') OR " +
+            "s.phone_number LIKE CONCAT('%', :name, '%')")
+    Page<User> findStudentsByNameContains(@Param("name") String name,
+                                             Pageable pageable);
 
 //    @Query("SELECT s FROM User1 s WHERE " +
 //            "s.username LIKE(:username)")

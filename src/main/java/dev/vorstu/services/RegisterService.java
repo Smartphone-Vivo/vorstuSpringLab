@@ -16,7 +16,10 @@ public class RegisterService {
                 null,
                 user.getUsername(),
                 Role.STUDENT,
+                "igor",
+                "1488",
                 new Password(user.getPassword()),
+                new Group(), //todo group
                 true
         );
         userRepository.save(student);

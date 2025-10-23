@@ -36,7 +36,7 @@ public class User {
     @JoinColumn(name = "password_id", nullable = false)
     private Password password;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id")
     private Group groups;
 

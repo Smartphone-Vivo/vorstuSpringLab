@@ -16,20 +16,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT s FROM User s WHERE " +
             "s.fio LIKE CONCAT('%', :name, '%') OR " +
-//            "s.groups LIKE CONCAT('%', :name, '%') OR " +
+            "s.groups.groupName LIKE CONCAT('%', :name, '%') OR " +
             "s.phone_number LIKE CONCAT('%', :name, '%')")
     Page<User> findStudentsByNameContains(@Param("name") String name,
                                              Pageable pageable);
 
-//    @Query("SELECT s FROM User1 s WHERE " +
-//            "s.username LIKE(:username)")
-//    public Optional<User1> findByUsername(String username);
 
-
-//    @Query("SELECT s FROM Student s WHERE " +
-//            "s.fio LIKE CONCAT('%', :name, '%') OR " +
-//            "s.group LIKE CONCAT('%', :name, '%') OR " +
-//            "s.phone_number LIKE CONCAT('%', :name, '%')")
-//    Page<Student> findStudentsByNameContains(@Param("name") String name,
-//                                             Pageable pageable);
 }

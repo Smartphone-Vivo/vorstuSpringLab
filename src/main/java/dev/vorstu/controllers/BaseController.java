@@ -23,6 +23,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class BaseController {
 
+
+    //todo сделал -
+
     //todo разделение ролей, разнефе таблички в зависимости от роли(student - видит свою группу, редактирует себя,
     //todo admin - видит и редактирует всех, teacher - видит и редактирует свою группу) На фронте сделать Studentpage,admin,teacher
     //todo чтоб один компонент и в зависимости от роли отображалось
@@ -44,6 +47,9 @@ public class BaseController {
         String[] parts = sort.split(",");
         String field = parts[0];
         Sort.Direction direction = Sort.Direction.fromString(parts[1].toUpperCase());
+        if (field.equals("group")) {
+            field = "groups.groupName";
+        }
 
         if (name == null){
             return userRepository.findAll(PageRequest.of(page, size, Sort.by(sort)));
@@ -68,7 +74,7 @@ public class BaseController {
             .filter(el -> el.getGroup().equals(group)).collect(Collectors.toList());
     }
 
-    //todo админский функционал
+    //todo не фурычит
     @PostMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
     public Student createStudent(@RequestBody Student newStudent) {
         return studentRepository.save(newStudent);
@@ -100,7 +106,7 @@ public class BaseController {
         if (id == null) {
             throw new RuntimeException("Student id is null");
         }
-        studentRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
 }

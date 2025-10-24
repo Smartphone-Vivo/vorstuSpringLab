@@ -5,6 +5,7 @@ import dev.vorstu.entity.Group;
 import dev.vorstu.entity.Password;
 import dev.vorstu.entity.User;
 import dev.vorstu.enums.Role;
+import dev.vorstu.repositories.GroupRepository;
 import dev.vorstu.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,16 +15,19 @@ import org.springframework.stereotype.Service;
 public class RegisterService {
 
     private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
-    public void register(JwtRequest user){
+    public void register(RegisterRequest user){
+        Group group = groupRepository.findById(user.getGroupId()).orElse(null);
         User student = new User(
                 null,
                 user.getUsername(),
                 Role.STUDENT,
-                "igor",
-                "1488",
+                user.getFio(),
+                user.getPassword(),
                 new Password(user.getPassword()),
-                new Group(), //todo group
+                group,
+                //todo group
                 true
         );
         userRepository.save(student);

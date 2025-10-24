@@ -3,6 +3,7 @@ package dev.vorstu.controllers;
 import dev.vorstu.dto.JwtRequest;
 import dev.vorstu.dto.JwtResponse;
 import dev.vorstu.dto.RefreshJwtRequest;
+import dev.vorstu.dto.RegisterRequest;
 import dev.vorstu.services.AuthService;
 import dev.vorstu.services.RegisterService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class AuthController {
     private final RegisterService registerService;
 
     @PostMapping("register")
-    public void register(@RequestBody JwtRequest authRequest) {
-        registerService.register(authRequest);
+    public void register(@RequestBody RegisterRequest registerRequest) {
+        registerService.register(registerRequest);
     }
 
     @PostMapping("login")

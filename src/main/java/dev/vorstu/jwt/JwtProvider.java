@@ -1,7 +1,7 @@
 package dev.vorstu.jwt;
 
 
-import dev.vorstu.dto.User;
+import dev.vorstu.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

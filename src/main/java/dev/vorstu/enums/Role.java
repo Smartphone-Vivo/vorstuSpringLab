@@ -1,4 +1,4 @@
-package dev.vorstu.dto;
+package dev.vorstu.enums;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

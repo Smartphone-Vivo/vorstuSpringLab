@@ -1,9 +1,8 @@
 package dev.vorstu.controllers;
 
-import dev.vorstu.dto.Group;
-import dev.vorstu.dto.User;
-import dev.vorstu.jwt.JwtAuthentication;
-import dev.vorstu.dto.Student;
+import dev.vorstu.entity.Group;
+import dev.vorstu.entity.User;
+import dev.vorstu.entity.Student;
 import dev.vorstu.repositories.GroupRepository;
 import dev.vorstu.repositories.StudentRepository;
 import dev.vorstu.repositories.UserRepository;
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;

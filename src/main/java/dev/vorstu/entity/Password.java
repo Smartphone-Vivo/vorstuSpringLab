@@ -1,4 +1,4 @@
-package dev.vorstu.dto;
+package dev.vorstu.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

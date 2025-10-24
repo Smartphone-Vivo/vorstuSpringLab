@@ -1,6 +1,6 @@
 package dev.vorstu.services;
 
-import dev.vorstu.dto.User;
+import dev.vorstu.entity.User;
 import dev.vorstu.repositories.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

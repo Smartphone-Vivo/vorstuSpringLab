@@ -1,7 +1,7 @@
 package dev.vorstu.jwt;
 
 
-import dev.vorstu.dto.Role;
+import dev.vorstu.enums.Role;
 import io.jsonwebtoken.Claims;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

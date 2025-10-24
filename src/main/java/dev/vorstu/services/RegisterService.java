@@ -1,6 +1,10 @@
 package dev.vorstu.services;
 
 import dev.vorstu.dto.*;
+import dev.vorstu.entity.Group;
+import dev.vorstu.entity.Password;
+import dev.vorstu.entity.User;
+import dev.vorstu.enums.Role;
 import dev.vorstu.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,6 @@
 package dev.vorstu.repositories;
 
-import dev.vorstu.dto.Student;
-import dev.vorstu.dto.User;
+import dev.vorstu.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

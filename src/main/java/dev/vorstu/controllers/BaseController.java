@@ -1,8 +1,10 @@
 package dev.vorstu.controllers;
 
+import dev.vorstu.dto.Group;
 import dev.vorstu.dto.User;
 import dev.vorstu.jwt.JwtAuthentication;
 import dev.vorstu.dto.Student;
+import dev.vorstu.repositories.GroupRepository;
 import dev.vorstu.repositories.StudentRepository;
 import dev.vorstu.repositories.UserRepository;
 import dev.vorstu.services.AuthService;
@@ -33,8 +35,14 @@ public class BaseController {
     private final StudentRepository studentRepository;
     private final AuthService authService;
     private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
     //todo сортировку по группам сделать
+
+    @GetMapping("group")
+    public List<Group> getGroups() {
+        return groupRepository.findAll();
+    }
 
     @GetMapping("students/{page}/{size}")
     public Iterable<User> getStudentsWithPagination(

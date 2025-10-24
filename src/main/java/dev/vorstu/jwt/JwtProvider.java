@@ -43,6 +43,7 @@ public class JwtProvider {
                 .claim("roles", user.getRole() != null ? user.getRole().name() : "STUDENT")
 //                .claim("roles", user.getRole().name()) //???
                 .claim("username", user.getUsername())
+                .claim("groups", user.getGroups().getGroupName())
                 .compact();
     }
 

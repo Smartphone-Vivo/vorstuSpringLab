@@ -41,13 +41,19 @@ public class BaseController {
         return groupRepository.findAll();
     }
 
-    @GetMapping("students/{page}/{size}")
+    @GetMapping("students/{id}/{page}/{size}")
     public Iterable<User> getStudentsWithPagination(
+            @PathVariable(name = "id") Long id,
             @PathVariable(name = "page") int page,
             @PathVariable(name = "size") int size,
 
-            @RequestParam(required = false) String name,
+            @RequestParam(required = false, defaultValue = "") String name,
             @RequestParam(name = "sort", defaultValue = "id,asc") String sort){
+
+        User user = userRepository.findById(id).orElse(null);
+
+        String groupName = user.getGroups().getGroupName();
+
 
         String[] parts = sort.split(",");
         String field = parts[0];
@@ -56,12 +62,8 @@ public class BaseController {
             field = "groups.groupName";
         }
 
-        if (name == null){
-            return userRepository.findAll(PageRequest.of(page, size, Sort.by(sort)));
-        }
-        else {
-            return userRepository.findStudentsByNameContains(name, PageRequest.of(page, size, Sort.by(direction, field)));
-        }
+        return userRepository.findStudentsByNameContains(name, groupName, PageRequest.of(page, size, Sort.by(direction, field)));
+
 
         //todo clean arcitecture, dto - entity, mapstruct, service
     }

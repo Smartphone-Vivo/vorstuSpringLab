@@ -14,11 +14,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
     @Query("SELECT s FROM User s WHERE " +
-            "s.fio LIKE CONCAT('%', :name, '%') OR " +
-            "s.groups.groupName LIKE CONCAT('%', :name, '%') OR " +
-            "s.phone_number LIKE CONCAT('%', :name, '%')")
+            "s.groups.groupName = :groupName AND " +
+            "(s.fio LIKE CONCAT('%', :name, '%') OR " +
+            "s.phone_number LIKE CONCAT('%', :name, '%'))")
     Page<User> findStudentsByNameContains(@Param("name") String name,
-                                             Pageable pageable);
+                                          @Param("groupName") String groupName,
+                                          Pageable pageable);
 
 
 }

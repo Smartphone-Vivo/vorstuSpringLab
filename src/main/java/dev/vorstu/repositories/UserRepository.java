@@ -21,5 +21,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
                                           @Param("groupName") String groupName,
                                           Pageable pageable);
 
+    @Query("SELECT s FROM User s WHERE " +
+            "(s.fio LIKE CONCAT('%', :name, '%') OR " +
+            "s.phone_number LIKE CONCAT('%', :name, '%'))")
+    Page<User> findAllStudentsByNameContains(@Param("name") String name,
+                                          Pageable pageable);
 
 }

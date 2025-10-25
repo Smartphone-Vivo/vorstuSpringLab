@@ -3,6 +3,7 @@ package dev.vorstu.controllers;
 import dev.vorstu.entity.Group;
 import dev.vorstu.entity.User;
 import dev.vorstu.entity.Student;
+import dev.vorstu.enums.Role;
 import dev.vorstu.repositories.GroupRepository;
 import dev.vorstu.repositories.StudentRepository;
 import dev.vorstu.repositories.UserRepository;
@@ -54,7 +55,6 @@ public class BaseController {
 
         String groupName = user.getGroups().getGroupName();
 
-
         String[] parts = sort.split(",");
         String field = parts[0];
         Sort.Direction direction = Sort.Direction.fromString(parts[1].toUpperCase());
@@ -62,7 +62,16 @@ public class BaseController {
             field = "groups.groupName";
         }
 
-        return userRepository.findStudentsByNameContains(name, groupName, PageRequest.of(page, size, Sort.by(direction, field)));
+        if(user.getRole() == Role.ADMIN){
+            return userRepository.findAllStudentsByNameContains(name, PageRequest.of(page, size, Sort.by(direction, field)));
+        }
+        else{
+            return userRepository.findStudentsByNameContains(name, groupName, PageRequest.of(page, size, Sort.by(direction, field)));
+        }
+
+
+
+
 
 
         //todo clean arcitecture, dto - entity, mapstruct, service

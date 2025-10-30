@@ -18,9 +18,6 @@ public class UserService {
 
     public Optional<User> getByLogin(@NonNull String username) {
         return userRepository.findByUsername(username);
-//        return users.stream()
-//                .filter(user -> login.equals(user.getLogin()))
-//                .findFirst();
     }
 
 }

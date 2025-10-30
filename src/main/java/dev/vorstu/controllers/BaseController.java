@@ -1,5 +1,6 @@
 package dev.vorstu.controllers;
 
+import dev.vorstu.dto.UserDto;
 import dev.vorstu.entity.Group;
 import dev.vorstu.entity.User;
 import dev.vorstu.entity.Student;
@@ -45,7 +46,7 @@ public class BaseController {
     }
 
     @GetMapping("students/{id}/{page}/{size}")
-    public Iterable<User> getStudentsWithPagination(
+    public Iterable<UserDto> getStudentsWithPagination(
             @PathVariable(name = "id") Long id,
             @PathVariable(name = "page") int page,
             @PathVariable(name = "size") int size,

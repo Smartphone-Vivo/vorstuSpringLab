@@ -27,17 +27,9 @@ public class RegisterService {
                 user.getPassword(),
                 new Password(user.getPassword()),
                 group,
-                //todo group
                 true
         );
         userRepository.save(student);
     }
 
 }
-//User student = new User(
-//        null,
-//        "student",
-//        Role.USER,
-//        new Password("1234"),
-//        true
-//);

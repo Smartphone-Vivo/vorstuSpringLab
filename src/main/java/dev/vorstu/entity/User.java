@@ -32,7 +32,6 @@ public class User {
 
     //todo отличие EAGER от LAZY
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "password_id", nullable = false)
     private Password password;

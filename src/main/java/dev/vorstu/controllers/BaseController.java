@@ -8,6 +8,7 @@ import dev.vorstu.repositories.GroupRepository;
 import dev.vorstu.repositories.StudentRepository;
 import dev.vorstu.repositories.UserRepository;
 import dev.vorstu.services.AuthService;
+import dev.vorstu.services.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,7 @@ public class BaseController {
     private final AuthService authService;
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
+    private final BaseService baseService;
 
     //todo сортировку по группам сделать
 
@@ -51,78 +53,23 @@ public class BaseController {
             @RequestParam(required = false, defaultValue = "") String name,
             @RequestParam(name = "sort", defaultValue = "id,asc") String sort){
 
-        User user = userRepository.findById(id).orElse(null);
-
-        String groupName = user.getGroups().getGroupName();
-
-        String[] parts = sort.split(",");
-        String field = parts[0];
-        Sort.Direction direction = Sort.Direction.fromString(parts[1].toUpperCase());
-        if (field.equals("group")) {
-            field = "groups.groupName";
-        }
-
-        if(user.getRole() == Role.ADMIN){
-            return userRepository.findAllStudentsByNameContains(name, PageRequest.of(page, size, Sort.by(direction, field)));
-        }
-        else{
-            return userRepository.findStudentsByNameContains(name, groupName, PageRequest.of(page, size, Sort.by(direction, field)));
-        }
-
-
-
-
-
-
-        //todo clean arcitecture, dto - entity, mapstruct, service
+        return baseService.getStudentsWithPagination(id, page, size, name, sort);
     }
 
-    //todo удалить
-    @GetMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Student getStudentById(@PathVariable("id") Long id) {
-        return studentRepository.findById(id).orElse(null);
-    }
-
-    //todo удалить
-    @GetMapping(value = "students/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Student> getStudentByGroup(@RequestParam(value = "group") String group) {
-        return studentRepository.findAll().stream()
-            .filter(el -> el.getGroup().equals(group)).collect(Collectors.toList());
-    }
-
-    //todo не фурычит
-    @PostMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Student createStudent(@RequestBody Student newStudent) {
-        return studentRepository.save(newStudent);
+    @GetMapping("me/{id}")
+    public User getCurrentUser(@PathVariable("id") Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     //todo стрим поменять на чето там запрос вроде хз
     @PutMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User changeStudent(@RequestBody User user) {
-        if (user.getId() == null){
-            throw new RuntimeException("User id is null");
-        }
-
-        User changingUser = userRepository.findAll().stream()
-                .filter(el -> Objects.equals(el.getId(), user.getId()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-
-        changingUser.setUsername(user.getUsername());
-        changingUser.setRole(user.getRole());
-        changingUser.setFio(user.getFio());
-        changingUser.setPhone_number(user.getPhone_number());
-        changingUser.setGroups(user.getGroups());
-        changingUser.setEnable(user.getEnable());
-        return userRepository.save(changingUser);
+    public User changeUser(@RequestBody User user) {
+        return baseService.changeUser(user);
     }
 
     @DeleteMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteStudent(@PathVariable Long id) {
-        if (id == null) {
-            throw new RuntimeException("Student id is null");
-        }
-        userRepository.deleteById(id);
+        baseService.deleteStudent(id);
     }
 
 }

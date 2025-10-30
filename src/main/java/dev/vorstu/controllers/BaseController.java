@@ -12,6 +12,7 @@ import dev.vorstu.services.AuthService;
 import dev.vorstu.services.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -46,7 +47,7 @@ public class BaseController {
     }
 
     @GetMapping("students/{id}/{page}/{size}")
-    public Iterable<UserDto> getStudentsWithPagination(
+    public Page<UserDto> getStudentsWithPagination(
             @PathVariable(name = "id") Long id,
             @PathVariable(name = "page") int page,
             @PathVariable(name = "size") int size,

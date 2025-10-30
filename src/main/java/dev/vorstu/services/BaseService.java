@@ -7,6 +7,7 @@ import dev.vorstu.enums.Role;
 import dev.vorstu.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class BaseService {
     private final UserRepository userRepository;
     private final UserMapping userMapping;
 
-    public Iterable<UserDto> getStudentsWithPagination(Long id, int page, int size, String name, String sort){
+    public Page<UserDto> getStudentsWithPagination(Long id, int page, int size, String name, String sort){
         User user = userRepository.findById(id).orElse(null);
 
         String groupName = user.getGroups().getGroupName();

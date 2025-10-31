@@ -2,8 +2,10 @@ package dev.vorstu.services;
 
 import dev.vorstu.dto.UserDto;
 import dev.vorstu.dto.UserMapping;
+import dev.vorstu.entity.Group;
 import dev.vorstu.entity.User;
 import dev.vorstu.enums.Role;
+import dev.vorstu.repositories.GroupRepository;
 import dev.vorstu.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BaseService {
 
     private final UserRepository userRepository;
     private final UserMapping userMapping;
+    private final GroupRepository groupRepository;
 
     public Page<UserDto> getStudentsWithPagination(Long id, int page, int size, String name, String sort){
         User user = userRepository.findById(id).orElse(null);
@@ -52,21 +57,34 @@ public class BaseService {
         userRepository.deleteById(id);
     }
 
-    public User changeUser(User user){
+    public void changeUser(UserDto user){
         if (user.getId() == null){
             throw new RuntimeException("User id is null");
         }
 
         User changingUser = userRepository.findById(user.getId()).orElse(null);
 
+
         changingUser.setUsername(user.getUsername());
         changingUser.setRole(user.getRole());
         changingUser.setFio(user.getFio());
-        changingUser.setPhone_number(user.getPhone_number());
-        changingUser.setGroups(user.getGroups());
-        changingUser.setEnable(user.getEnable());
+        changingUser.setPhone_number(user.getPhoneNumber());
+        changingUser.setGroups(user.getGroup());
+        changingUser.setEnable(user.isEnable());
 
-        return userRepository.save(changingUser);
+        userRepository.save(changingUser);
     }
+
+    public UserDto getCurrentUser(Long id) {
+
+        User user = userRepository.findById(id).orElse(null);
+
+        return userMapping.toDto(user);
+    }
+
+    public List<Group> getGroups() {
+        return groupRepository.findAll();
+    }
+
 
 }

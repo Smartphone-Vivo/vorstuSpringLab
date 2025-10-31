@@ -43,7 +43,7 @@ public class BaseController {
 
     @GetMapping("group")
     public List<Group> getGroups() {
-        return groupRepository.findAll();
+        return baseService.getGroups();
     }
 
     @GetMapping("students/{id}/{page}/{size}")
@@ -59,14 +59,14 @@ public class BaseController {
     }
 
     @GetMapping("me/{id}")
-    public User getCurrentUser(@PathVariable("id") Long id) {
-        return userRepository.findById(id).orElse(null);
+    public UserDto getCurrentUser(@PathVariable("id") Long id) {
+        return baseService.getCurrentUser(id);
     }
 
     //todo стрим поменять на чето там запрос вроде хз
     @PutMapping(value = "students", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User changeUser(@RequestBody User user) {
-        return baseService.changeUser(user);
+    public void changeUser(@RequestBody UserDto user) {
+        baseService.changeUser(user);
     }
 
     @DeleteMapping(value = "students/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

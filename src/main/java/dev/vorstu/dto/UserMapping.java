@@ -8,8 +8,11 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring")
 public interface UserMapping {
     @Mapping(target = "phoneNumber", expression = "java(user.getPhone_number())")
-    @Mapping(target = "group", expression = "java(user.getGroups().getGroupName())")
+    @Mapping(target = "group", expression = "java(user.getGroups())")
     UserDto toDto(User user);
 
+    @Mapping(target = "phone_number", source = "phoneNumber")
+    @Mapping(target = "groups", source = "group")
+    User toEntity(UserDto userDto);
 
 }

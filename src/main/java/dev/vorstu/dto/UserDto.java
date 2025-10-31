@@ -1,5 +1,7 @@
 package dev.vorstu.dto;
 
+import dev.vorstu.entity.Group;
+import dev.vorstu.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -10,10 +12,10 @@ import lombok.Getter;
 public class UserDto {
     private Long id;
     private String username;
-    private String role;
+    private Role role;
     private String fio;
     private String phoneNumber;
-    private String group;
+    private Group group;
     private boolean enable;
 
 

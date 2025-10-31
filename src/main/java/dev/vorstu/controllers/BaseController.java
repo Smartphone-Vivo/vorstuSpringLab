@@ -1,25 +1,16 @@
 package dev.vorstu.controllers;
 
+import dev.vorstu.dto.GroupDto;
 import dev.vorstu.dto.UserDto;
-import dev.vorstu.entity.Group;
-import dev.vorstu.entity.User;
-import dev.vorstu.entity.Student;
-import dev.vorstu.enums.Role;
-import dev.vorstu.repositories.GroupRepository;
-import dev.vorstu.repositories.StudentRepository;
-import dev.vorstu.repositories.UserRepository;
-import dev.vorstu.services.AuthService;
+
 import dev.vorstu.services.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/base")
@@ -33,16 +24,12 @@ public class BaseController {
     //todo admin - видит и редактирует всех, teacher - видит и редактирует свою группу) На фронте сделать Studentpage,admin,teacher
     //todo чтоб один компонент и в зависимости от роли отображалось
 
-    private final StudentRepository studentRepository;
-    private final AuthService authService;
-    private final UserRepository userRepository;
-    private final GroupRepository groupRepository;
     private final BaseService baseService;
 
     //todo сортировку по группам сделать
 
     @GetMapping("group")
-    public List<Group> getGroups() {
+    public List<GroupDto> getGroups() {
         return baseService.getGroups();
     }
 

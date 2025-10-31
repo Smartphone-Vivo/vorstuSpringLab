@@ -20,10 +20,6 @@ public class Group {
         this.groupName = groupName;
     }
 
-
-
-
-
     public Group() {
     }
 

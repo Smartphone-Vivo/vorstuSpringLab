@@ -81,7 +81,6 @@ public class Initializer {
                 new User(null, "student30", Role.STUDENT, "Grigoriev Angelina", "1517", new Password("student30"), bvm233, true)
         );
 
-// Сохраняем всех пользователей через обычный for
         for (User user : users) {
             userRepository.save(user);
         }
@@ -116,7 +115,7 @@ public class Initializer {
                 Role.TEACHER,
                 "Igor Gofman teacher",
                 "1490",
-                new Password("student"),
+                new Password("teacher"),
                 bvm231,
                 true
         );

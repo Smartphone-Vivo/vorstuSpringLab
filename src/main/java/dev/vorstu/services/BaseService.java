@@ -1,5 +1,7 @@
 package dev.vorstu.services;
 
+import dev.vorstu.dto.GroupDto;
+import dev.vorstu.dto.GroupMapping;
 import dev.vorstu.dto.UserDto;
 import dev.vorstu.dto.UserMapping;
 import dev.vorstu.entity.Group;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +29,7 @@ public class BaseService {
     private final UserRepository userRepository;
     private final UserMapping userMapping;
     private final GroupRepository groupRepository;
+    private final GroupMapping groupMapping;
 
     public Page<UserDto> getStudentsWithPagination(Long id, int page, int size, String name, String sort){
         User user = userRepository.findById(id).orElse(null);
@@ -82,8 +87,15 @@ public class BaseService {
         return userMapping.toDto(user);
     }
 
-    public List<Group> getGroups() {
-        return groupRepository.findAll();
+    public List<GroupDto> getGroups() {
+
+        GroupDto groupDto;
+        List<Group> groups = groupRepository.findAll();
+
+        return groups.stream()
+                .map(group -> groupMapping.toDto(group))
+                .collect(Collectors.toList());
+
     }
 
 

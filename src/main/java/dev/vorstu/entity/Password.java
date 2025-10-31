@@ -29,8 +29,6 @@ public class Password {
 
     private String password;
 
-
-
     @JsonIgnore
     private void setPasswordWithEncoding(String password) {
         this.password = passwordEncoder.encode(password);
